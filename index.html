@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
 <meta name="description" content="Three UK - Phones, Broadband & SIM Only deals">
 <title>Three | Phones, Broadband & SIM Only deals</title>
+
+<!-- ✅ UNSPLASH FAVICON -->
+<link rel="icon" type="image/png" href="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=64&h=64&fit=crop&q=80">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -92,7 +96,7 @@ header.main-header {
   display:flex;
   align-items:center;
   gap:6px;
-  padding:12px 18px;
+  padding:12px 16px;
   font-size:15px;
   font-weight:500;
   border-radius:12px;
@@ -113,15 +117,16 @@ header.main-header {
   border-radius:var(--radius-lg);
   box-shadow:var(--shadow-lg);
   border:1px solid var(--border);
-  padding:36px;
+  padding:32px;
   min-width:680px;
   display:grid;
   grid-template-columns:repeat(3, 1fr);
-  gap:36px;
+  gap:32px;
   opacity:0;
   visibility:hidden;
   transition:all 0.25s ease;
   pointer-events:none;
+  z-index:100;
 }
 .primary-nav > li:hover .mega-menu {
   opacity:1;
@@ -148,9 +153,10 @@ header.main-header {
   color:var(--dark);
   margin:-4px -12px;
   transition:all 0.15s;
+  white-space:nowrap;
 }
 .mega-col a:hover { background:var(--pink-soft); color:var(--pink); }
-.mega-col a .ico { font-size:18px; width:24px; text-align:center; }
+.mega-col a .ico { font-size:18px; width:24px; text-align:center; flex-shrink:0; }
 
 .header-actions { display:flex; align-items:center; gap:6px; flex-shrink:0; }
 .icon-btn {
@@ -185,38 +191,50 @@ header.main-header {
 }
 .hamburger { display:none; font-size:22px; }
 
-/* MOBILE MENU OVERLAY */
+/* ============ MOBILE MENU ============ */
 .mobile-menu {
   position:fixed;
   top:0;
-  right:-100%;
+  right:0;
+  bottom:0;
   width:100%;
-  max-width:400px;
+  max-width:420px;
   height:100vh;
+  height:100dvh;
   background:#fff;
   z-index:2000;
-  transition:right 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  transform:translateX(100%);
+  transition:transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
   box-shadow:-20px 0 60px rgba(0,0,0,0.2);
 }
-.mobile-menu.open { right:0; }
+.mobile-menu.open { transform:translateX(0); }
 .mobile-menu-overlay {
   position:fixed;
   inset:0;
+  width:100vw;
+  height:100vh;
+  height:100dvh;
   background:rgba(0,0,0,0.5);
   backdrop-filter:blur(4px);
+  -webkit-backdrop-filter:blur(4px);
   z-index:1999;
   opacity:0;
   visibility:hidden;
-  transition:0.3s;
+  transition:opacity 0.3s, visibility 0.3s;
 }
 .mobile-menu-overlay.open { opacity:1; visibility:visible; }
 .mobile-menu-header {
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:24px;
+  padding:20px 24px;
   border-bottom:1px solid var(--border);
+  position:sticky;
+  top:0;
+  background:#fff;
+  z-index:2;
 }
 .mobile-menu-header .brand { font-size:24px; }
 .mobile-close {
@@ -228,17 +246,16 @@ header.main-header {
   align-items:center;
   justify-content:center;
   font-size:18px;
+  flex-shrink:0;
 }
-.mobile-nav { padding:16px 24px; }
-.mobile-nav-item {
-  border-bottom:1px solid var(--border);
-}
+.mobile-nav { padding:8px 24px 24px; }
+.mobile-nav-item { border-bottom:1px solid var(--border); }
 .mobile-nav-item > a {
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:20px 0;
-  font-size:17px;
+  padding:18px 0;
+  font-size:16px;
   font-weight:600;
 }
 .mobile-nav-item > a:hover { color:var(--pink); }
@@ -913,6 +930,9 @@ header.main-header {
 .modal-overlay {
   position:fixed;
   inset:0;
+  width:100vw;
+  height:100vh;
+  height:100dvh;
   background:rgba(0,0,0,0.65);
   backdrop-filter:blur(10px);
   -webkit-backdrop-filter:blur(10px);
@@ -921,6 +941,7 @@ header.main-header {
   justify-content:center;
   z-index:5000;
   padding:24px;
+  overflow-y:auto;
 }
 .modal-overlay.show { display:flex; animation:fadeIn 0.25s; }
 @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
@@ -932,6 +953,7 @@ header.main-header {
   width:100%;
   max-height:90vh;
   overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
   position:relative;
   animation:slideUp 0.3s;
 }
@@ -1100,13 +1122,491 @@ footer.main-footer { background:var(--black); color:#fff; padding:90px 32px 32px
 .pd-specs span { background:var(--light-gray); padding:11px 20px; border-radius:100px; font-size:13px; font-weight:600; }
 .pd-actions { display:flex; gap:12px; flex-wrap:wrap; }
 
-/* ============ RESPONSIVE ============ */
+/* ============ CHECKOUT ============ */
+.checkout-hero {
+  max-width:1200px;
+  margin:0 auto;
+  padding:40px 32px 20px;
+}
+.checkout-hero h1 {
+  font-size:clamp(28px, 4vw, 44px);
+  font-weight:900;
+  letter-spacing:-1.5px;
+  line-height:1.1;
+  margin-bottom:8px;
+}
+.checkout-hero p { color:var(--gray); font-size:16px; }
 
-/* TABLET: 1024px and below */
-@media (max-width:1024px) {
-  .nav-wrap { padding:0 20px; gap:16px; }
-  .primary-nav { display:none; }
-  .hamburger { display:flex; }
+.stepper-wrap {
+  background:#fff;
+  border-bottom:1px solid var(--border);
+  position:sticky;
+  top:76px;
+  z-index:99;
+}
+.stepper {
+  max-width:1200px;
+  margin:0 auto;
+  padding:24px 32px;
+  display:flex;
+  align-items:center;
+  gap:0;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.stepper::-webkit-scrollbar { display:none; }
+.step-item {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-shrink:0;
+}
+.step-circle {
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  background:#fff;
+  border:2px solid var(--border);
+  color:var(--gray);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:700;
+  font-size:14px;
+  transition:all 0.3s;
+  flex-shrink:0;
+  overflow:hidden;
+}
+.step-circle img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:50%;
+}
+.step-item.active .step-circle {
+  background:var(--pink);
+  border-color:var(--pink);
+  color:#fff;
+  box-shadow:0 0 0 4px rgba(255,15,91,0.15);
+}
+.step-item.active .step-circle img {
+  border:2px solid #fff;
+}
+.step-item.completed .step-circle {
+  background:#00b894;
+  border-color:#00b894;
+  color:#fff;
+}
+.step-item.completed .step-circle img {
+  display:none;
+}
+.step-item.completed .step-circle::after {
+  content:'✓';
+  font-size:16px;
+}
+.step-label {
+  font-size:13px;
+  font-weight:600;
+  color:var(--gray);
+  white-space:nowrap;
+  display:none;
+}
+.step-item.active .step-label { color:var(--black); display:block; }
+.step-item.completed .step-label { color:#00b894; display:block; }
+.step-line {
+  flex:1;
+  height:2px;
+  background:var(--border);
+  margin:0 12px;
+  min-width:20px;
+  transition:background 0.3s;
+}
+.step-line.completed { background:#00b894; }
+
+.checkout-container {
+  max-width:1200px;
+  margin:0 auto;
+  padding:32px 32px 60px;
+  display:grid;
+  grid-template-columns:1fr 380px;
+  gap:32px;
+  align-items:start;
+}
+.checkout-main { min-width:0; }
+.checkout-sidebar { position:sticky; top:200px; }
+
+.step-panel { display:none; animation:fadeIn 0.3s; }
+.step-panel.active { display:block; }
+
+.step-title {
+  font-size:32px;
+  font-weight:900;
+  letter-spacing:-1px;
+  margin-bottom:8px;
+}
+.step-sub {
+  color:var(--gray);
+  font-size:15px;
+  margin-bottom:32px;
+}
+.card {
+  background:#fff;
+  border-radius:var(--radius-lg);
+  padding:32px;
+  border:1px solid var(--border);
+  margin-bottom:24px;
+}
+.card-title {
+  font-size:18px;
+  font-weight:800;
+  margin-bottom:20px;
+  letter-spacing:-0.3px;
+}
+
+.form-row {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  margin-bottom:16px;
+}
+.form-group.full { grid-column:1 / -1; }
+.form-group label .req { color:var(--pink); margin-left:2px; }
+.form-group input:focus,
+.form-group select:focus {
+  border-color:var(--pink);
+  box-shadow:0 0 0 4px rgba(255,15,91,0.1);
+}
+.form-group input::placeholder { color:#aaa; }
+.form-group .hint {
+  font-size:12px;
+  color:var(--gray);
+  margin-top:6px;
+}
+.form-group .error-msg {
+  color:#e00a4e;
+  font-size:12px;
+  margin-top:6px;
+  font-weight:500;
+  display:none;
+  align-items:center;
+  gap:4px;
+}
+.form-group.error input,
+.form-group.error select { border-color:#e00a4e; }
+.form-group.error .error-msg { display:flex; }
+
+.dob-row {
+  display:grid;
+  grid-template-columns:1fr 1fr 1.5fr;
+  gap:12px;
+}
+
+.network-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(140px, 1fr));
+  gap:12px;
+  margin-top:8px;
+}
+.network-card {
+  padding:18px 14px;
+  border:2px solid var(--border);
+  border-radius:14px;
+  text-align:center;
+  cursor:pointer;
+  transition:all 0.2s;
+  background:#fff;
+}
+.network-card:hover { border-color:var(--pink); }
+.network-card.selected {
+  border-color:var(--pink);
+  background:var(--pink-soft);
+  box-shadow:0 0 0 4px rgba(255,15,91,0.08);
+}
+.network-card .n-logo {
+  font-size:24px;
+  font-weight:900;
+  letter-spacing:-1px;
+  margin-bottom:4px;
+}
+.network-card .n-name { font-size:13px; font-weight:600; color:var(--gray); }
+
+.checkbox-group {
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  margin-bottom:16px;
+  cursor:pointer;
+  padding:4px 0;
+}
+.checkbox-group input[type="checkbox"] {
+  width:20px;
+  height:20px;
+  accent-color:var(--pink);
+  cursor:pointer;
+  margin-top:2px;
+  flex-shrink:0;
+}
+.checkbox-group label {
+  font-size:14px;
+  color:var(--dark);
+  cursor:pointer;
+  line-height:1.5;
+}
+.checkbox-group label a {
+  color:var(--pink);
+  text-decoration:underline;
+  text-underline-offset:2px;
+}
+
+.btn-block { width:100%; }
+.btn-lg { padding:18px 40px; font-size:16px; }
+
+.step-actions {
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  margin-top:32px;
+  padding-top:24px;
+  border-top:1px solid var(--border);
+}
+.step-actions .btn-primary { margin-left:auto; }
+.step-actions .btn:disabled { opacity:0.5; cursor:not-allowed; }
+
+.order-summary {
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:24px;
+  box-shadow:var(--shadow);
+}
+.order-summary h3 {
+  font-size:16px;
+  font-weight:800;
+  margin-bottom:20px;
+  padding-bottom:16px;
+  border-bottom:1px solid var(--border);
+}
+.summary-row {
+  display:flex;
+  justify-content:space-between;
+  font-size:14px;
+  padding:8px 0;
+  gap:12px;
+}
+.summary-row .label { color:var(--gray); }
+.summary-row .value { font-weight:600; text-align:right; }
+.summary-row.total {
+  font-size:18px;
+  font-weight:800;
+  padding-top:16px;
+  margin-top:12px;
+  border-top:2px solid var(--black);
+}
+.summary-empty {
+  text-align:center;
+  padding:24px 0;
+  color:var(--gray);
+  font-size:13px;
+}
+
+.loading-overlay {
+  display:none;
+  position:fixed;
+  inset:0;
+  width:100vw;
+  height:100vh;
+  height:100dvh;
+  background:rgba(255,255,255,0.95);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  z-index:5000;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:20px;
+}
+.loading-overlay.show { display:flex; }
+.spinner {
+  width:56px;
+  height:56px;
+  border:4px solid var(--light-gray);
+  border-top-color:var(--pink);
+  border-radius:50%;
+  animation:spin 1s linear infinite;
+}
+@keyframes spin { to { transform:rotate(360deg); } }
+.loading-text {
+  font-size:16px;
+  font-weight:600;
+  color:var(--dark);
+}
+
+.result-banner {
+  padding:24px;
+  border-radius:var(--radius);
+  margin-bottom:24px;
+  display:flex;
+  align-items:flex-start;
+  gap:16px;
+  animation:fadeIn 0.3s;
+}
+.result-banner.success { background:#e8f9f3; border:1px solid #00b894; }
+.result-banner.error { background:#ffeaea; border:1px solid #e00a4e; }
+.result-banner.warning { background:#fff8e1; border:1px solid #f39c12; }
+.result-icon {
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:24px;
+  flex-shrink:0;
+}
+.result-banner.success .result-icon { background:#00b894; color:#fff; }
+.result-banner.error .result-icon { background:#e00a4e; color:#fff; }
+.result-banner.warning .result-icon { background:#f39c12; color:#fff; }
+.result-content h4 { font-size:18px; font-weight:800; margin-bottom:4px; }
+.result-content p { font-size:14px; color:var(--gray); }
+
+.device-filters {
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:24px;
+}
+.device-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));
+  gap:16px;
+}
+.device-card {
+  background:#fff;
+  border:1.5px solid var(--border);
+  border-radius:var(--radius);
+  overflow:hidden;
+  cursor:pointer;
+  transition:all 0.25s;
+  display:flex;
+  flex-direction:column;
+}
+.device-card:hover {
+  border-color:var(--black);
+  transform:translateY(-4px);
+  box-shadow:var(--shadow-lg);
+}
+.device-img {
+  height:160px;
+  background:var(--light-gray);
+  overflow:hidden;
+}
+.device-img img { width:100%; height:100%; object-fit:cover; }
+.device-info { padding:16px; flex:1; display:flex; flex-direction:column; }
+.device-brand {
+  font-size:10px;
+  font-weight:700;
+  color:var(--gray);
+  text-transform:uppercase;
+  letter-spacing:0.8px;
+  margin-bottom:4px;
+}
+.device-info h4 { font-size:15px; font-weight:800; margin-bottom:8px; }
+.device-price {
+  font-size:20px;
+  font-weight:900;
+  letter-spacing:-0.5px;
+  margin-top:auto;
+  padding-top:12px;
+  border-top:1px solid var(--border);
+}
+.device-price small { font-size:12px; font-weight:500; color:var(--gray); }
+
+.selected-device {
+  display:grid;
+  grid-template-columns:200px 1fr;
+  gap:24px;
+  padding:24px;
+  background:var(--light-gray);
+  border-radius:var(--radius);
+  margin-bottom:24px;
+}
+.selected-device-img {
+  width:100%;
+  height:200px;
+  border-radius:12px;
+  overflow:hidden;
+  background:#fff;
+}
+.selected-device-img img { width:100%; height:100%; object-fit:cover; }
+.selected-device-info h3 { font-size:20px; font-weight:800; margin-bottom:8px; }
+.selected-device-info .price { font-size:24px; font-weight:900; color:var(--pink); }
+
+.plan-options { display:grid; gap:12px; margin-top:12px; }
+.plan-card {
+  padding:20px;
+  border:2px solid var(--border);
+  border-radius:14px;
+  cursor:pointer;
+  transition:0.2s;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+  background:#fff;
+}
+.plan-card:hover { border-color:var(--pink); }
+.plan-card.selected { border-color:var(--pink); background:var(--pink-soft); }
+.plan-card-info h4 { font-size:16px; font-weight:800; margin-bottom:4px; }
+.plan-card-info p { font-size:13px; color:var(--gray); }
+.plan-card-price { text-align:right; flex-shrink:0; }
+.plan-card-price .amount { font-size:22px; font-weight:900; }
+.plan-card-price .period { font-size:12px; color:var(--gray); }
+
+.card-input-wrap { position:relative; }
+.card-input-wrap .card-brand {
+  position:absolute;
+  right:16px;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:20px;
+}
+
+.success-screen {
+  text-align:center;
+  padding:60px 24px;
+  max-width:600px;
+  margin:0 auto;
+}
+.success-icon {
+  width:100px;
+  height:100px;
+  border-radius:50%;
+  background:#00b894;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:48px;
+  margin:0 auto 32px;
+  animation:pop 0.5s;
+}
+@keyframes pop { 0% { transform:scale(0); } 80% { transform:scale(1.1); } 100% { transform:scale(1); } }
+.success-screen h1 { font-size:36px; font-weight:900; letter-spacing:-1px; margin-bottom:12px; }
+.success-screen p { color:var(--gray); font-size:16px; margin-bottom:32px; }
+.order-number {
+  background:var(--light-gray);
+  padding:20px;
+  border-radius:14px;
+  margin-bottom:32px;
+  font-size:14px;
+}
+.order-number strong { font-size:20px; font-weight:900; display:block; margin-top:4px; letter-spacing:1px; }
+
+/* ============ RESPONSIVE (FIXED LAPTOP ISSUE) ============ */
+
+/* Fix for Laptops & Tablets - Hide mobile menu on screens > 900px */
+@media (max-width: 1024px) {
+  .nav-wrap { padding:0 24px; gap:16px; }
   
   .hero { padding:50px 24px 70px; }
   .hero-inner { grid-template-columns:1fr; gap:50px; }
@@ -1130,10 +1630,23 @@ footer.main-footer { background:var(--black); color:#fff; padding:90px 32px 32px
   
   .product-detail { grid-template-columns:1fr; gap:40px; padding:40px 24px; }
   .pd-image { min-height:400px; }
+
+  /* Checkout tablet */
+  .checkout-container { grid-template-columns:1fr; }
+  .checkout-sidebar { position:static; order:-1; }
+  .step-label { display:none !important; }
+  .selected-device { grid-template-columns:1fr; padding:16px; }
+  .selected-device-img { height:180px; }
 }
 
-/* MOBILE: 768px and below */
-@media (max-width:768px) {
+/* This fixes the laptop issue - Mobile menu only shows on screens < 900px */
+@media (max-width: 900px) {
+  .primary-nav { display:none; }
+  .hamburger { display:flex; }
+}
+
+/* Tablets & Small Laptops (768px) */
+@media (max-width: 768px) {
   .top-notice { font-size:12px; padding:10px 16px; }
   .nav-wrap { height:68px; padding:0 16px; gap:8px; }
   .brand { font-size:24px; }
@@ -1229,10 +1742,28 @@ footer.main-footer { background:var(--black); color:#fff; padding:90px 32px 32px
   .pd-specs span { padding:9px 16px; font-size:12px; }
   .pd-actions { flex-direction:column; }
   .pd-actions .btn { width:100%; }
+
+  /* Checkout mobile */
+  .checkout-hero { padding:24px 16px 12px; }
+  .stepper { padding:16px; gap:8px; }
+  .step-circle { width:32px; height:32px; font-size:12px; }
+  .step-line { margin:0 6px; min-width:12px; }
+  .checkout-container { padding:20px 16px 40px; gap:20px; }
+  .card { padding:24px 20px; }
+  .form-row { grid-template-columns:1fr; }
+  .step-title { font-size:26px; }
+  .step-sub { font-size:14px; }
+  .step-actions { flex-direction:column-reverse; }
+  .step-actions .btn { width:100%; }
+  .step-actions .btn-primary { margin-left:0; }
+  .dob-row { grid-template-columns:1fr 1fr; }
+  .dob-row .year { grid-column:1 / -1; }
+  .stepper-wrap { top:68px; }
+  .mobile-menu { max-width:100%; }
 }
 
-/* SMALL MOBILE: 480px and below */
-@media (max-width:480px) {
+/* Small Mobile (480px) */
+@media (max-width: 480px) {
   .brand { font-size:22px; }
   .icon-btn { width:38px; height:38px; font-size:16px; }
   .hero-stats { gap:16px; }
@@ -1242,6 +1773,13 @@ footer.main-footer { background:var(--black); color:#fff; padding:90px 32px 32px
   .threet-perk { font-size:14px; }
   .threet-banner h2 { font-size:32px; }
   .newsletter h2 { font-size:26px; }
+  .stepper { padding:12px; }
+  .step-circle { width:28px; height:28px; font-size:11px; }
+  .device-grid { grid-template-columns:1fr 1fr; gap:10px; }
+  .device-img { height:120px; }
+  .device-info { padding:12px; }
+  .device-info h4 { font-size:13px; }
+  .device-price { font-size:16px; }
 }
 </style>
 </head>
@@ -1711,6 +2249,348 @@ footer.main-footer { background:var(--black); color:#fff; padding:90px 32px 32px
   </section>
 </div>
 
+<!-- ==================== CHECKOUT PAGE ==================== -->
+<div class="page" id="page-checkout">
+  <div class="checkout-hero">
+    <h1>Complete your order</h1>
+    <p>Just a few details and you're done.</p>
+  </div>
+
+  <div class="stepper-wrap">
+    <div class="stepper" id="stepper">
+      <div class="step-item active" data-step="1">
+        <div class="step-circle">
+          <img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=80&h=80&fit=crop&q=80" alt="Details">
+        </div>
+        <span class="step-label">Details</span>
+      </div>
+      <div class="step-line" data-line="1"></div>
+      
+      <div class="step-item" data-step="2">
+        <div class="step-circle">
+          <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=80&h=80&fit=crop&q=80" alt="Eligibility">
+        </div>
+        <span class="step-label">Eligibility</span>
+      </div>
+      <div class="step-line" data-line="2"></div>
+      
+      <div class="step-item" data-step="3">
+        <div class="step-circle">
+          <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=80&h=80&fit=crop&q=80" alt="Device">
+        </div>
+        <span class="step-label">Device</span>
+      </div>
+      <div class="step-line" data-line="3"></div>
+      
+      <div class="step-item" data-step="4">
+        <div class="step-circle">
+          <img src="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=80&h=80&fit=crop&q=80" alt="Credit">
+        </div>
+        <span class="step-label">Credit</span>
+      </div>
+      <div class="step-line" data-line="4"></div>
+      
+      <div class="step-item" data-step="5">
+        <div class="step-circle">
+          <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=80&h=80&fit=crop&q=80" alt="Payment">
+        </div>
+        <span class="step-label">Payment</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="spinner"></div>
+    <div class="loading-text" id="loadingText">Checking...</div>
+  </div>
+
+  <div class="checkout-container">
+    <div class="checkout-main">
+
+      <div class="step-panel active" id="step1">
+        <h1 class="step-title">Your details</h1>
+        <p class="step-sub">Tell us a bit about yourself so we can set up your account.</p>
+
+        <div class="card">
+          <h3 class="card-title">Personal information</h3>
+          <div class="form-row">
+            <div class="form-group" id="fg-firstname">
+              <label>First name <span class="req">*</span></label>
+              <input type="text" id="firstName" placeholder="John" autocomplete="given-name">
+              <div class="error-msg">⚠ Please enter your first name</div>
+            </div>
+            <div class="form-group" id="fg-lastname">
+              <label>Last name <span class="req">*</span></label>
+              <input type="text" id="lastName" placeholder="Doe" autocomplete="family-name">
+              <div class="error-msg">⚠ Please enter your last name</div>
+            </div>
+          </div>
+          <div class="form-group" id="fg-dob">
+            <label>Date of birth <span class="req">*</span></label>
+            <div class="dob-row">
+              <input type="text" id="dobDay" placeholder="DD" maxlength="2" inputmode="numeric">
+              <input type="text" id="dobMonth" placeholder="MM" maxlength="2" inputmode="numeric">
+              <input type="text" id="dobYear" class="year" placeholder="YYYY" maxlength="4" inputmode="numeric">
+            </div>
+            <div class="hint">You must be 18 or over</div>
+            <div class="error-msg">⚠ Please enter a valid date of birth (18+)</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="card-title">Address</h3>
+          <div class="form-group" id="fg-postcode">
+            <label>Postcode <span class="req">*</span></label>
+            <div style="display:flex; gap:8px;">
+              <input type="text" id="postcode" placeholder="e.g. SW1A 1AA" autocomplete="postal-code" style="text-transform:uppercase;">
+              <button class="btn btn-ghost" type="button" onclick="findAddress()" style="white-space:nowrap;">Find address</button>
+            </div>
+            <div class="error-msg">⚠ Please enter a valid UK postcode</div>
+          </div>
+          <div id="addressFields" style="display:none;">
+            <div class="form-group">
+              <label>Select address</label>
+              <select id="addressSelect" onchange="selectAddress()">
+                <option value="">-- Choose an address --</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Address line 1 <span class="req">*</span></label>
+              <input type="text" id="address1" placeholder="123 High Street">
+            </div>
+            <div class="form-group">
+              <label>Address line 2</label>
+              <input type="text" id="address2" placeholder="Flat 4 (optional)">
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Town / City <span class="req">*</span></label>
+                <input type="text" id="town" placeholder="London">
+              </div>
+              <div class="form-group">
+                <label>County</label>
+                <input type="text" id="county" placeholder="Greater London">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="card-title">Contact details</h3>
+          <div class="form-group" id="fg-phone">
+            <label>Mobile number <span class="req">*</span></label>
+            <input type="tel" id="phone" placeholder="07xxx xxxxxx" autocomplete="tel">
+            <div class="hint">We'll send your order updates here</div>
+            <div class="error-msg">⚠ Please enter a valid UK mobile number</div>
+          </div>
+          <div class="form-group" id="fg-email">
+            <label>Email address <span class="req">*</span></label>
+            <input type="email" id="email" placeholder="you@example.com" autocomplete="email">
+            <div class="error-msg">⚠ Please enter a valid email address</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 class="card-title">Choose your network</h3>
+          <div class="network-grid" id="networkGrid">
+            <div class="network-card" data-network="EE" onclick="selectNetwork(this)">
+              <div class="n-logo">EE</div>
+              <div class="n-name">EE</div>
+            </div>
+            <div class="network-card" data-network="Vodafone" onclick="selectNetwork(this)">
+              <div class="n-logo">V</div>
+              <div class="n-name">Vodafone</div>
+            </div>
+            <div class="network-card" data-network="O2" onclick="selectNetwork(this)">
+              <div class="n-logo">O2</div>
+              <div class="n-name">O2</div>
+            </div>
+            <div class="network-card" data-network="Three" onclick="selectNetwork(this)">
+              <div class="n-logo">3</div>
+              <div class="n-name">Three</div>
+            </div>
+          </div>
+          <div class="error-msg" id="networkError" style="margin-top:8px;">⚠ Please select a network</div>
+        </div>
+
+        <div class="card">
+          <label class="checkbox-group">
+            <input type="checkbox" id="termsCheck">
+            <label for="termsCheck">I agree to the <a onclick="showToast('Terms page')">Terms and Conditions</a> and <a onclick="showToast('Privacy page')">Privacy Policy</a> <span style="color:var(--pink);">*</span></label>
+          </label>
+          <div class="error-msg" id="termsError" style="margin-left:32px;">⚠ You must agree to continue</div>
+          <label class="checkbox-group">
+            <input type="checkbox" id="marketingCheck">
+            <label for="marketingCheck">I'd like to receive marketing offers and updates (optional)</label>
+          </label>
+        </div>
+
+        <div class="step-actions">
+          <span></span>
+          <button class="btn btn-primary btn-lg" onclick="validateStep1()">Continue →</button>
+        </div>
+      </div>
+
+      <div class="step-panel" id="step2">
+        <h1 class="step-title">Bank eligibility check</h1>
+        <p class="step-sub">We use this to confirm your bank account is valid and eligible. We will not take any payment at this stage.</p>
+        <div id="eligibilityResult"></div>
+        <div class="card" id="eligibilityForm">
+          <h3 class="card-title">Bank account details</h3>
+          <div class="form-group" id="fg-bank">
+            <label>Bank name <span class="req">*</span></label>
+            <select id="bankName" style="width:100%; padding:15px 20px; border:1.5px solid var(--border); border-radius:14px; font-size:15px; outline:none; background:#fff;">
+              <option value="">-- Select your bank --</option>
+              <option value="Barclays">Barclays</option>
+              <option value="HSBC">HSBC</option>
+              <option value="Lloyds">Lloyds Bank</option>
+              <option value="NatWest">NatWest</option>
+              <option value="Santander">Santander</option>
+              <option value="Halifax">Halifax</option>
+              <option value="Nationwide">Nationwide</option>
+              <option value="Monzo">Monzo</option>
+              <option value="Starling">Starling</option>
+              <option value="Revolut">Revolut</option>
+            </select>
+            <div class="error-msg">⚠ Please select your bank</div>
+          </div>
+          <div class="form-row">
+            <div class="form-group" id="fg-sortcode">
+              <label>Sort code <span class="req">*</span></label>
+              <input type="text" id="sortCode" placeholder="00-00-00" maxlength="8" inputmode="numeric">
+              <div class="error-msg">⚠ Please enter a valid sort code</div>
+            </div>
+            <div class="form-group" id="fg-account">
+              <label>Account number <span class="req">*</span></label>
+              <input type="text" id="accountNumber" placeholder="12345678" maxlength="8" inputmode="numeric">
+              <div class="error-msg">⚠ Please enter a valid account number</div>
+            </div>
+          </div>
+          <p style="font-size:13px; color:var(--gray); margin-top:16px;">🔒 We use this to confirm your bank account is valid and eligible. We will not take any payment at this stage.</p>
+        </div>
+        <div class="step-actions">
+          <button class="btn btn-ghost btn-lg" onclick="goToStep(1)">← Back</button>
+          <button class="btn btn-primary btn-lg" id="eligibilityBtn" onclick="runEligibilityCheck()">Check eligibility →</button>
+        </div>
+      </div>
+
+      <div class="step-panel" id="step3">
+        <h1 class="step-title">Choose your device</h1>
+        <p class="step-sub">Select from our latest smartphones on flexible plans.</p>
+        <div id="selectedDevicePanel" style="display:none;">
+          <div class="selected-device" id="selectedDeviceDetail"></div>
+        </div>
+        <div id="deviceListPanel">
+          <div class="device-filters">
+            <button class="chip active" onclick="filterDevices('all', this)">All</button>
+            <button class="chip" onclick="filterDevices('Apple', this)">Apple</button>
+            <button class="chip" onclick="filterDevices('Samsung', this)">Samsung</button>
+            <button class="chip" onclick="filterDevices('Google', this)">Google</button>
+          </div>
+          <div class="device-grid" id="deviceGrid"></div>
+        </div>
+        <div class="step-actions">
+          <button class="btn btn-ghost btn-lg" onclick="goToStep(2)">← Back</button>
+          <button class="btn btn-primary btn-lg" id="deviceContinueBtn" onclick="confirmDeviceSelection()" disabled>Select a device first</button>
+        </div>
+      </div>
+
+      <div class="step-panel" id="step4">
+        <h1 class="step-title">Credit check</h1>
+        <p class="step-sub">We'll carry out a credit check to see if you can be approved for this device.</p>
+        <div id="creditResult"></div>
+        <div class="card" id="creditForm">
+          <h3 class="card-title">Order summary</h3>
+          <div id="creditSummary"></div>
+          <hr style="margin:20px 0; border:none; border-top:1px solid var(--border);">
+          <p style="font-size:14px; color:var(--gray); margin-bottom:16px;">We'll carry out a soft credit search to check your eligibility. This won't affect your credit score.</p>
+          <label class="checkbox-group">
+            <input type="checkbox" id="creditConsent" onchange="toggleCreditBtn()">
+            <label for="creditConsent">I agree to a credit check being carried out and understand how my data will be used <span style="color:var(--pink);">*</span></label>
+          </label>
+        </div>
+        <div class="step-actions">
+          <button class="btn btn-ghost btn-lg" onclick="goToStep(3)">← Back</button>
+          <button class="btn btn-primary btn-lg" id="creditBtn" onclick="runCreditCheck()" disabled>Run credit check →</button>
+        </div>
+      </div>
+
+      <div class="step-panel" id="step5">
+        <h1 class="step-title">Payment</h1>
+        <p class="step-sub">Complete your order securely.</p>
+        <div id="paymentResult"></div>
+        <div class="card" id="paymentForm">
+          <h3 class="card-title">Card details</h3>
+          <div class="form-group" id="fg-cardname">
+            <label>Name on card <span class="req">*</span></label>
+            <input type="text" id="cardName" placeholder="JOHN DOE" autocomplete="cc-name">
+            <div class="error-msg">⚠ Please enter the name on your card</div>
+          </div>
+          <div class="form-group" id="fg-cardnumber">
+            <label>Card number <span class="req">*</span></label>
+            <div class="card-input-wrap">
+              <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" inputmode="numeric" autocomplete="cc-number">
+              <span class="card-brand" id="cardBrand"></span>
+            </div>
+            <div class="error-msg">⚠ Please enter a valid card number</div>
+          </div>
+          <div class="form-row">
+            <div class="form-group" id="fg-expiry">
+              <label>Expiry date <span class="req">*</span></label>
+              <input type="text" id="expiry" placeholder="MM/YY" maxlength="5" inputmode="numeric" autocomplete="cc-exp">
+              <div class="error-msg">⚠ Please enter a valid expiry date</div>
+            </div>
+            <div class="form-group" id="fg-cvv">
+              <label>Security code (CVV) <span class="req">*</span></label>
+              <input type="text" id="cvv" placeholder="123" maxlength="4" inputmode="numeric" autocomplete="cc-csc">
+              <div class="error-msg">⚠ Please enter a valid security code</div>
+            </div>
+          </div>
+          <label class="checkbox-group">
+            <input type="checkbox" id="billingSame" checked>
+            <label for="billingSame">Billing address same as home address</label>
+          </label>
+        </div>
+        <div class="card">
+          <label class="checkbox-group">
+            <input type="checkbox" id="confirmOrder" onchange="togglePayBtn()">
+            <label for="confirmOrder">I confirm I have read the order summary and agree to the contract terms <span style="color:var(--pink);">*</span></label>
+          </label>
+        </div>
+        <div class="step-actions">
+          <button class="btn btn-ghost btn-lg" onclick="goToStep(4)">← Back</button>
+          <button class="btn btn-primary btn-lg" id="payBtn" onclick="processPayment()" disabled>Pay and complete order →</button>
+        </div>
+      </div>
+
+      <div class="step-panel" id="stepSuccess">
+        <div class="success-screen">
+          <div class="success-icon">✓</div>
+          <h1>Order confirmed!</h1>
+          <p>Thank you for your order. We've sent a confirmation to your email.</p>
+          <div class="order-number">
+            Your order number
+            <strong id="orderNumber">TH-000000</strong>
+          </div>
+          <div id="successSummary" style="text-align:left; margin-bottom:32px;"></div>
+          <p style="font-size:14px; color:var(--gray);">Next steps: Your device will be delivered within 2-3 working days. Your SIM will be activated when you receive it.</p>
+          <button class="btn btn-primary btn-lg" style="margin-top:24px;" onclick="navigate('home')">Back to home</button>
+        </div>
+      </div>
+
+    </div>
+
+    <aside class="checkout-sidebar">
+      <div class="order-summary">
+        <h3>Order summary</h3>
+        <div id="summaryContent">
+          <div class="summary-empty">Your selections will appear here</div>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+
 <!-- ==================== MODALS ==================== -->
 <div class="modal-overlay" id="loginModal">
   <div class="modal">
@@ -1770,7 +2650,7 @@ footer.main-footer { background:var(--black); color:#fff; padding:90px 32px 32px
       <span>Total</span>
       <span id="cartTotalAmount">£0</span>
     </div>
-    <button class="btn btn-primary" id="checkoutBtn" style="display:none; width:100%; margin-top:20px;" onclick="checkout()">Proceed to checkout →</button>
+    <button class="btn btn-primary" id="checkoutBtn" style="display:none; width:100%; margin-top:20px;" onclick="startCheckout()">Proceed to checkout →</button>
   </div>
 </div>
 
@@ -1874,17 +2754,15 @@ let cart = JSON.parse(localStorage.getItem('threeCart') || '[]');
 let currentPage = 'home';
 let currentProductId = null;
 
-/* ============ ROUTING SYSTEM (HASH-BASED MULTI-PAGE) ============ */
-const validPages = ['home', 'phones', 'sim', 'broadband', 'deals', 'support', 'search'];
+/* ============ ROUTING ============ */
+const validPages = ['home', 'phones', 'sim', 'broadband', 'deals', 'support', 'search', 'checkout'];
 
 function navigate(page, data) {
-  // Handle product page separately
   if (page === 'product' && data) {
     currentProductId = data;
     window.location.hash = `#/product/${data}`;
     return;
   }
-  
   if (validPages.includes(page)) {
     window.location.hash = `#/${page}`;
   } else {
@@ -1903,16 +2781,15 @@ function showPage(page) {
   currentPage = page;
   window.scrollTo({ top:0, behavior:'smooth' });
   
-  // Close mobile menu
   document.getElementById('mobileMenu')?.classList.remove('open');
   document.getElementById('mobileOverlay')?.classList.remove('open');
   document.body.style.overflow = '';
   
-  // Render page content
   if (page === 'phones') renderProducts('phones', 'phoneFilters');
   if (page === 'sim') renderProducts('sim', 'simFilters');
   if (page === 'broadband') renderProducts('broadband');
   if (page === 'deals') renderDeals();
+  if (page === 'checkout') resetCheckout();
 }
 
 function handleRoute() {
@@ -1957,7 +2834,6 @@ function toggleMobileMenu() {
 function toggleMobileSub(el) {
   const item = el.parentElement;
   const wasExpanded = item.classList.contains('expanded');
-  // Close all others
   document.querySelectorAll('.mobile-nav-item').forEach(i => i.classList.remove('expanded'));
   if (!wasExpanded) item.classList.add('expanded');
 }
@@ -2114,13 +2990,426 @@ function removeFromCart(id) {
   openCart();
 }
 
-function checkout() {
+function startCheckout() {
   if (cart.length === 0) return;
-  showToast('Order placed successfully! 🎉', 'success');
-  cart = [];
-  saveCart();
-  updateCartCount();
   closeModal('cartModal');
+  navigate('checkout');
+}
+
+/* ============ CHECKOUT STATE ============ */
+const checkoutState = {
+  customer: {}, network: null, eligibility: null, device: null, plan: null,
+  credit: null, orderId: 'TH-' + Math.floor(Math.random() * 900000 + 100000),
+  storage: null, color: null, planPrice: null
+};
+let currentStep = 1;
+const totalSteps = 5;
+
+const checkoutDevices = [
+  { id:'p1', name:'iPhone 15', brand:'Apple', price:39, img:'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400&q=80', storage:['128GB','256GB'], colors:['#000','#f5f5f5','#ff6b9d'] },
+  { id:'p2', name:'iPhone 15 Pro', brand:'Apple', price:59, img:'https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=400&q=80', storage:['256GB','512GB'], colors:['#1a1a1a','#c0a080','#f5f5f5'] },
+  { id:'p3', name:'Galaxy S24', brand:'Samsung', price:45, img:'https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=400&q=80', storage:['128GB','256GB'], colors:['#000','#a0a0a0','#f5f0e0'] },
+  { id:'p4', name:'Galaxy S24 Ultra', brand:'Samsung', price:69, img:'https://images.unsplash.com/photo-1678911820864-e2c567c655d7?w=400&q=80', storage:['256GB','512GB'], colors:['#000','#a0a0a0','#c0a080'] },
+  { id:'p5', name:'Pixel 8', brand:'Google', price:35, img:'https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=400&q=80', storage:['128GB','256GB'], colors:['#000','#e0e0e0','#a0c0e0'] },
+  { id:'p6', name:'Pixel 8 Pro', brand:'Google', price:49, img:'https://images.unsplash.com/photo-1616348436168-de43ad0db179?w=400&q=80', storage:['256GB','512GB'], colors:['#000','#e0e0e0','#e0d0c0'] }
+];
+
+const checkoutPlans = [
+  { id:'12m', name:'12-month plan', desc:'Best value • Unlimited data', priceMult:1 },
+  { id:'24m', name:'24-month plan', desc:'Lower monthly cost', priceMult:0.85 },
+  { id:'36m', name:'36-month plan', desc:'Lowest monthly cost', priceMult:0.75 }
+];
+
+function resetCheckout() {
+  currentStep = 1;
+  goToStep(1);
+  updateStepper();
+  updateCheckoutSummary();
+  renderCheckoutDevices();
+}
+
+function goToStep(step) {
+  if (step < 1 || step > totalSteps) return;
+  currentStep = step;
+  document.querySelectorAll('#page-checkout .step-panel').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById('step' + step);
+  if (target) target.classList.add('active');
+  updateStepper();
+  window.scrollTo({ top:0, behavior:'smooth' });
+}
+
+function updateStepper() {
+  document.querySelectorAll('.step-item').forEach(item => {
+    const step = parseInt(item.dataset.step);
+    item.classList.remove('active', 'completed');
+    if (step < currentStep) item.classList.add('completed');
+    else if (step === currentStep) item.classList.add('active');
+  });
+  document.querySelectorAll('.step-line').forEach(line => {
+    const lineNum = parseInt(line.dataset.line);
+    line.classList.toggle('completed', lineNum < currentStep);
+  });
+}
+
+function updateCheckoutSummary() {
+  const el = document.getElementById('summaryContent');
+  if (!el) return;
+  const parts = [];
+  if (checkoutState.device) {
+    parts.push(`<div class="summary-row"><span class="label">Device</span><span class="value">${checkoutState.device.name}</span></div>`);
+    if (checkoutState.storage) parts.push(`<div class="summary-row"><span class="label">Storage</span><span class="value">${checkoutState.storage}</span></div>`);
+  }
+  if (checkoutState.plan) parts.push(`<div class="summary-row"><span class="label">Plan</span><span class="value">${checkoutState.plan.name}</span></div>`);
+  if (checkoutState.network) parts.push(`<div class="summary-row"><span class="label">Network</span><span class="value">${checkoutState.network}</span></div>`);
+  if (checkoutState.planPrice) parts.push(`<div class="summary-row total"><span>Monthly</span><span>£${checkoutState.planPrice}/mth</span></div>`);
+  el.innerHTML = parts.length ? parts.join('') : '<div class="summary-empty">Your selections will appear here</div>';
+}
+
+/* STEP 1 */
+function validateStep1() {
+  let valid = true;
+  const firstName = document.getElementById('firstName').value.trim();
+  const fgFirst = document.getElementById('fg-firstname');
+  if (!firstName || !/^[a-zA-Z\s\-']{1,50}$/.test(firstName)) { fgFirst.classList.add('error'); valid = false; } else fgFirst.classList.remove('error');
+
+  const lastName = document.getElementById('lastName').value.trim();
+  const fgLast = document.getElementById('fg-lastname');
+  if (!lastName || !/^[a-zA-Z\s\-']{1,50}$/.test(lastName)) { fgLast.classList.add('error'); valid = false; } else fgLast.classList.remove('error');
+
+  const day = document.getElementById('dobDay').value;
+  const month = document.getElementById('dobMonth').value;
+  const year = document.getElementById('dobYear').value;
+  const fgDob = document.getElementById('fg-dob');
+  const dob = new Date(year, month - 1, day);
+  const age = Math.floor((Date.now() - dob.getTime()) / (365.25 * 24 * 60 * 60 * 1000));
+  if (!day || !month || !year || isNaN(dob) || age < 18 || age > 120) { fgDob.classList.add('error'); valid = false; } else fgDob.classList.remove('error');
+
+  const postcode = document.getElementById('postcode').value.trim().toUpperCase();
+  const fgPostcode = document.getElementById('fg-postcode');
+  if (!/^[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}$/i.test(postcode)) { fgPostcode.classList.add('error'); valid = false; } else fgPostcode.classList.remove('error');
+
+  const phone = document.getElementById('phone').value.trim().replace(/\s/g, '');
+  const fgPhone = document.getElementById('fg-phone');
+  if (!/^(07\d{9}|\+447\d{9})$/.test(phone)) { fgPhone.classList.add('error'); valid = false; } else fgPhone.classList.remove('error');
+
+  const email = document.getElementById('email').value.trim();
+  const fgEmail = document.getElementById('fg-email');
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 254) { fgEmail.classList.add('error'); valid = false; } else fgEmail.classList.remove('error');
+
+  const networkError = document.getElementById('networkError');
+  if (!checkoutState.network) { networkError.style.display = 'flex'; valid = false; } else networkError.style.display = 'none';
+
+  const termsError = document.getElementById('termsError');
+  if (!document.getElementById('termsCheck').checked) { termsError.style.display = 'flex'; valid = false; } else termsError.style.display = 'none';
+
+  if (!valid) { showToast('Please fix the errors above', 'error'); return; }
+
+  checkoutState.customer = {
+    firstName, lastName, dob: `${day}/${month}/${year}`, postcode,
+    address1: document.getElementById('address1').value,
+    address2: document.getElementById('address2').value,
+    town: document.getElementById('town').value,
+    county: document.getElementById('county').value,
+    phone, email,
+    marketing: document.getElementById('marketingCheck').checked
+  };
+  updateCheckoutSummary();
+  goToStep(2);
+}
+
+function findAddress() {
+  const postcode = document.getElementById('postcode').value.trim().toUpperCase();
+  const fgPostcode = document.getElementById('fg-postcode');
+  if (!/^[A-Z]{1,2}\d[A-Z\d]?\s*\d[A-Z]{2}$/i.test(postcode)) { fgPostcode.classList.add('error'); return; }
+  fgPostcode.classList.remove('error');
+
+  showLoading('Finding addresses...');
+  setTimeout(() => {
+    hideLoading();
+    document.getElementById('addressFields').style.display = 'block';
+    document.getElementById('addressSelect').innerHTML = `
+      <option value="">-- Choose an address --</option>
+      <option value="1">1 High Street, London, SW1A 1AA</option>
+      <option value="2">2 High Street, London, SW1A 1AA</option>
+      <option value="3">3 High Street, London, SW1A 1AA</option>
+      <option value="4">4 High Street, London, SW1A 1AA</option>
+    `;
+    showToast('4 addresses found', 'success');
+  }, 1000);
+}
+
+function selectAddress() {
+  const sel = document.getElementById('addressSelect');
+  if (!sel.value) return;
+  const parts = sel.options[sel.selectedIndex].text.split(', ');
+  document.getElementById('address1').value = parts[0] || '';
+  document.getElementById('town').value = parts[1] || '';
+  document.getElementById('address2').value = '';
+  document.getElementById('county').value = '';
+}
+
+function selectNetwork(el) {
+  document.querySelectorAll('.network-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  checkoutState.network = el.dataset.network;
+  document.getElementById('networkError').style.display = 'none';
+  updateCheckoutSummary();
+}
+
+/* STEP 2 */
+function runEligibilityCheck() {
+  let valid = true;
+  const bank = document.getElementById('bankName').value;
+  const sortCode = document.getElementById('sortCode').value.replace(/\D/g, '');
+  const accountNumber = document.getElementById('accountNumber').value.replace(/\D/g, '');
+
+  if (!bank) { document.getElementById('fg-bank').classList.add('error'); valid = false; } else document.getElementById('fg-bank').classList.remove('error');
+  if (sortCode.length !== 6) { document.getElementById('fg-sortcode').classList.add('error'); valid = false; } else document.getElementById('fg-sortcode').classList.remove('error');
+  if (accountNumber.length !== 8) { document.getElementById('fg-account').classList.add('error'); valid = false; } else document.getElementById('fg-account').classList.remove('error');
+  if (!valid) return;
+
+  showLoading('Checking your eligibility...');
+  document.getElementById('eligibilityBtn').disabled = true;
+
+  setTimeout(() => {
+    hideLoading();
+    document.getElementById('eligibilityBtn').disabled = false;
+    checkoutState.eligibility = 'passed';
+    document.getElementById('eligibilityResult').innerHTML = `
+      <div class="result-banner success">
+        <div class="result-icon">✓</div>
+        <div class="result-content">
+          <h4>Great news, you're eligible!</h4>
+          <p>Your bank account has been verified. You can now choose your device.</p>
+        </div>
+      </div>
+    `;
+    document.getElementById('eligibilityForm').style.display = 'none';
+    updateCheckoutSummary();
+    setTimeout(() => goToStep(3), 1200);
+  }, 2200);
+}
+
+/* STEP 3 */
+let checkoutDeviceFilter = 'all';
+
+function renderCheckoutDevices() {
+  const grid = document.getElementById('deviceGrid');
+  if (!grid) return;
+  let filtered = checkoutDevices;
+  if (checkoutDeviceFilter !== 'all') filtered = checkoutDevices.filter(d => d.brand === checkoutDeviceFilter);
+  grid.innerHTML = filtered.map(d => `
+    <div class="device-card" onclick="selectCheckoutDevice('${d.id}')">
+      <div class="device-img"><img src="${d.img}" alt="${d.name}"></div>
+      <div class="device-info">
+        <div class="device-brand">${d.brand}</div>
+        <h4>${d.name}</h4>
+        <div class="device-price">£${d.price}<small>/mth</small></div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterDevices(brand, btn) {
+  checkoutDeviceFilter = brand;
+  document.querySelectorAll('.device-filters .chip').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  renderCheckoutDevices();
+}
+
+function selectCheckoutDevice(id) {
+  const device = checkoutDevices.find(d => d.id === id);
+  if (!device) return;
+  checkoutState.device = device;
+  document.getElementById('deviceListPanel').style.display = 'none';
+  document.getElementById('selectedDevicePanel').style.display = 'block';
+  
+  const detail = document.getElementById('selectedDeviceDetail');
+  detail.innerHTML = `
+    <div class="selected-device-img"><img src="${device.img}" alt="${device.name}"></div>
+    <div class="selected-device-info">
+      <div class="device-brand">${device.brand}</div>
+      <h3>${device.name}</h3>
+      <div class="price">£${device.price}/mth</div>
+      <div style="margin-top:16px;">
+        <label style="font-size:13px; font-weight:600; display:block; margin-bottom:8px;">Storage</label>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          ${device.storage.map((s, i) => `<button class="chip ${i === 0 ? 'active' : ''}" onclick="selectStorage(this, '${s}')">${s}</button>`).join('')}
+        </div>
+      </div>
+      <div style="margin-top:16px;">
+        <label style="font-size:13px; font-weight:600; display:block; margin-bottom:8px;">Colour</label>
+        <div style="display:flex; gap:8px;">
+          ${device.colors.map((c, i) => `<div onclick="selectColor(this)" style="width:36px; height:36px; border-radius:50%; background:${c}; border:2px solid ${i === 0 ? 'var(--pink)' : 'var(--border)'}; cursor:pointer;"></div>`).join('')}
+        </div>
+      </div>
+      <div style="margin-top:20px;">
+        <label style="font-size:13px; font-weight:600; display:block; margin-bottom:8px;">Choose your plan</label>
+        <div class="plan-options">
+          ${checkoutPlans.map((p, i) => `
+            <div class="plan-card ${i === 0 ? 'selected' : ''}" onclick="selectPlan(this, '${p.id}', ${p.priceMult})">
+              <div class="plan-card-info"><h4>${p.name}</h4><p>${p.desc}</p></div>
+              <div class="plan-card-price"><div class="amount">£${Math.round(device.price * p.priceMult)}</div><div class="period">/month</div></div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+      <button class="btn btn-ghost" style="margin-top:16px;" onclick="backToCheckoutDeviceList()">← Choose a different device</button>
+    </div>
+  `;
+  checkoutState.plan = checkoutPlans[0];
+  checkoutState.planPrice = Math.round(device.price * checkoutPlans[0].priceMult);
+  checkoutState.storage = device.storage[0];
+  checkoutState.color = device.colors[0];
+  document.getElementById('deviceContinueBtn').disabled = false;
+  document.getElementById('deviceContinueBtn').textContent = 'Continue →';
+  updateCheckoutSummary();
+}
+
+function backToCheckoutDeviceList() {
+  checkoutState.device = null;
+  document.getElementById('selectedDevicePanel').style.display = 'none';
+  document.getElementById('deviceListPanel').style.display = 'block';
+  document.getElementById('deviceContinueBtn').disabled = true;
+  document.getElementById('deviceContinueBtn').textContent = 'Select a device first';
+  updateCheckoutSummary();
+}
+
+function selectStorage(el, storage) {
+  el.parentElement.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  checkoutState.storage = storage;
+}
+
+function selectColor(el) {
+  el.parentElement.querySelectorAll('div').forEach(d => d.style.border = '2px solid var(--border)');
+  el.style.border = '2px solid var(--pink)';
+  checkoutState.color = el.style.background;
+}
+
+function selectPlan(el, planId, priceMult) {
+  el.parentElement.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  checkoutState.plan = checkoutPlans.find(p => p.id === planId);
+  checkoutState.planPrice = Math.round(checkoutState.device.price * priceMult);
+  updateCheckoutSummary();
+}
+
+function confirmDeviceSelection() {
+  if (!checkoutState.device) { showToast('Please select a device first', 'error'); return; }
+  updateCreditSummary();
+  goToStep(4);
+}
+
+/* STEP 4 */
+function updateCreditSummary() {
+  const d = checkoutState.device;
+  document.getElementById('creditSummary').innerHTML = `
+    <div class="summary-row"><span class="label">Device</span><span class="value">${d.name}</span></div>
+    <div class="summary-row"><span class="label">Storage</span><span class="value">${checkoutState.storage}</span></div>
+    <div class="summary-row"><span class="label">Plan</span><span class="value">${checkoutState.plan.name}</span></div>
+    <div class="summary-row"><span class="label">Monthly cost</span><span class="value">£${checkoutState.planPrice}/mth</span></div>
+    <div class="summary-row total"><span>Total credit</span><span>£${checkoutState.planPrice * parseInt(checkoutState.plan.id)}</span></div>
+  `;
+}
+
+function toggleCreditBtn() {
+  document.getElementById('creditBtn').disabled = !document.getElementById('creditConsent').checked;
+}
+
+function runCreditCheck() {
+  showLoading('Checking your credit...');
+  document.getElementById('creditBtn').disabled = true;
+  setTimeout(() => {
+    hideLoading();
+    document.getElementById('creditBtn').disabled = false;
+    checkoutState.credit = 'approved';
+    document.getElementById('creditResult').innerHTML = `
+      <div class="result-banner success">
+        <div class="result-icon">✓</div>
+        <div class="result-content">
+          <h4>You've been approved!</h4>
+          <p>You've been approved for this device. Continue to payment.</p>
+        </div>
+      </div>
+    `;
+    document.getElementById('creditForm').style.display = 'none';
+    updateCheckoutSummary();
+    setTimeout(() => goToStep(5), 1200);
+  }, 2500);
+}
+
+/* STEP 5 */
+function togglePayBtn() {
+  document.getElementById('payBtn').disabled = !document.getElementById('confirmOrder').checked;
+  updatePayBtnText();
+}
+
+function updatePayBtnText() {
+  const total = checkoutState.planPrice || 0;
+  document.getElementById('payBtn').textContent = `Pay £${total} and complete order →`;
+}
+
+document.getElementById('cardNumber')?.addEventListener('input', (e) => {
+  let val = e.target.value.replace(/\D/g, '').slice(0, 19);
+  e.target.value = val.replace(/(.{4})/g, '$1 ').trim();
+  const brand = document.getElementById('cardBrand');
+  if (val.startsWith('4')) brand.textContent = '💳 Visa';
+  else if (/^5[1-5]/.test(val)) brand.textContent = '💳 Mastercard';
+  else if (/^3[47]/.test(val)) brand.textContent = '💳 Amex';
+  else brand.textContent = '';
+});
+
+document.getElementById('sortCode')?.addEventListener('input', (e) => {
+  let val = e.target.value.replace(/\D/g, '').slice(0, 6);
+  e.target.value = val.replace(/(\d{2})(?=\d)/g, '$1-');
+});
+
+document.getElementById('expiry')?.addEventListener('input', (e) => {
+  let val = e.target.value.replace(/\D/g, '').slice(0, 4);
+  if (val.length >= 2) val = val.slice(0, 2) + '/' + val.slice(2);
+  e.target.value = val;
+});
+
+function processPayment() {
+  let valid = true;
+  const cardName = document.getElementById('cardName').value.trim();
+  if (!cardName) { document.getElementById('fg-cardname').classList.add('error'); valid = false; } else document.getElementById('fg-cardname').classList.remove('error');
+  const cardNum = document.getElementById('cardNumber').value.replace(/\s/g, '');
+  if (cardNum.length < 13 || cardNum.length > 19) { document.getElementById('fg-cardnumber').classList.add('error'); valid = false; } else document.getElementById('fg-cardnumber').classList.remove('error');
+  const expiry = document.getElementById('expiry').value;
+  if (!/^\d{2}\/\d{2}$/.test(expiry)) { document.getElementById('fg-expiry').classList.add('error'); valid = false; } else document.getElementById('fg-expiry').classList.remove('error');
+  const cvv = document.getElementById('cvv').value;
+  if (cvv.length < 3 || cvv.length > 4) { document.getElementById('fg-cvv').classList.add('error'); valid = false; } else document.getElementById('fg-cvv').classList.remove('error');
+  if (!valid) return;
+
+  showLoading('Processing payment...');
+  document.getElementById('payBtn').disabled = true;
+
+  setTimeout(() => {
+    hideLoading();
+    document.getElementById('paymentForm').style.display = 'none';
+    document.getElementById('paymentResult').innerHTML = `
+      <div class="result-banner success">
+        <div class="result-icon">✓</div>
+        <div class="result-content">
+          <h4>Payment successful!</h4>
+          <p>Your order has been confirmed.</p>
+        </div>
+      </div>
+    `;
+    document.getElementById('orderNumber').textContent = checkoutState.orderId;
+    document.getElementById('successSummary').innerHTML = `
+      <div class="summary-row"><span class="label">Device</span><span class="value">${checkoutState.device.name}</span></div>
+      <div class="summary-row"><span class="label">Plan</span><span class="value">${checkoutState.plan.name}</span></div>
+      <div class="summary-row"><span class="label">Monthly</span><span class="value">£${checkoutState.planPrice}/mth</span></div>
+      <div class="summary-row"><span class="label">Network</span><span class="value">${checkoutState.network}</span></div>
+    `;
+    document.querySelectorAll('#page-checkout .step-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('stepSuccess').classList.add('active');
+    document.querySelector('.stepper-wrap').style.display = 'none';
+    window.scrollTo({ top:0, behavior:'smooth' });
+  }, 2500);
 }
 
 /* ============ MODALS ============ */
@@ -2130,14 +3419,10 @@ function openModal(id) {
 }
 function closeModal(id) {
   document.getElementById(id).classList.remove('show');
-  if (!document.querySelector('.mobile-menu.open')) {
-    document.body.style.overflow = '';
-  }
+  if (!document.querySelector('.mobile-menu.open')) document.body.style.overflow = '';
 }
 document.querySelectorAll('.modal-overlay').forEach(overlay => {
-  overlay.addEventListener('click', e => {
-    if (e.target === overlay) closeModal(overlay.id);
-  });
+  overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(overlay.id); });
 });
 
 /* ============ AUTH ============ */
@@ -2146,21 +3431,15 @@ function handleLogin(e) {
   const email = document.getElementById('loginEmail');
   const pass = document.getElementById('loginPass');
   let valid = true;
-
   const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value);
   document.getElementById('loginEmailGroup').classList.toggle('error', !emailOk);
   if (!emailOk) valid = false;
-
   const passOk = pass.value.length >= 6;
   document.getElementById('loginPassGroup').classList.toggle('error', !passOk);
   if (!passOk) valid = false;
   if (!valid) return;
-
   const user = JSON.parse(localStorage.getItem('threeUser') || 'null');
-  if (!user || user.email !== email.value || user.pass !== pass.value) {
-    showToast('Invalid email or password', 'error');
-    return;
-  }
+  if (!user || user.email !== email.value || user.pass !== pass.value) { showToast('Invalid email or password', 'error'); return; }
   showToast(`Welcome back, ${user.name}! 👋`, 'success');
   closeModal('loginModal');
 }
@@ -2171,23 +3450,17 @@ function handleSignup(e) {
   const email = document.getElementById('suEmail');
   const pass = document.getElementById('suPass');
   let valid = true;
-
   const nameOk = name.value.trim().length > 1;
   document.getElementById('suNameGroup').classList.toggle('error', !nameOk);
   if (!nameOk) valid = false;
-
   const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value);
   document.getElementById('suEmailGroup').classList.toggle('error', !emailOk);
   if (!emailOk) valid = false;
-
   const passOk = pass.value.length >= 6;
   document.getElementById('suPassGroup').classList.toggle('error', !passOk);
   if (!passOk) valid = false;
   if (!valid) return;
-
-  localStorage.setItem('threeUser', JSON.stringify({
-    name: name.value.trim(), email: email.value, pass: pass.value
-  }));
+  localStorage.setItem('threeUser', JSON.stringify({ name: name.value.trim(), email: email.value, pass: pass.value }));
   showToast(`Account created! Welcome, ${name.value.trim()} 🎉`, 'success');
   closeModal('signupModal');
 }
@@ -2203,10 +3476,7 @@ function doModalSearch() {
   if (!q) return;
   closeModal('searchModal');
   navigate('search');
-  setTimeout(() => {
-    document.getElementById('globalSearch').value = q;
-    doGlobalSearch();
-  }, 100);
+  setTimeout(() => { document.getElementById('globalSearch').value = q; doGlobalSearch(); }, 100);
 }
 
 function doGlobalSearch() {
@@ -2215,19 +3485,9 @@ function doGlobalSearch() {
   const results = q ? all.filter(p => p.name.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q)) : [];
   const container = document.getElementById('searchCards');
   const info = document.getElementById('searchInfo');
-
-  if (!q) {
-    info.innerText = 'Start typing to search';
-    container.innerHTML = '';
-    return;
-  }
+  if (!q) { info.innerText = 'Start typing to search'; container.innerHTML = ''; return; }
   info.innerText = `${results.length} result${results.length !== 1 ? 's' : ''} for "${q}"`;
-
-  if (results.length === 0) {
-    container.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:80px; color:#6b6b6b;">No results found 😕</div>';
-    return;
-  }
-
+  if (results.length === 0) { container.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:80px; color:#6b6b6b;">No results found 😕</div>'; return; }
   container.innerHTML = results.map(p => productCardHTML(p)).join('');
 }
 
@@ -2238,7 +3498,15 @@ function handleNewsletter(e) {
   e.target.reset();
 }
 
-/* ============ TOAST ============ */
+/* ============ UI HELPERS ============ */
+function showLoading(text) {
+  document.getElementById('loadingText').textContent = text;
+  document.getElementById('loadingOverlay').classList.add('show');
+}
+function hideLoading() {
+  document.getElementById('loadingOverlay').classList.remove('show');
+}
+
 let toastTimer;
 function showToast(msg, type = '') {
   const toast = document.getElementById('toast');
@@ -2250,25 +3518,17 @@ function showToast(msg, type = '') {
 
 /* ============ INIT ============ */
 document.addEventListener('DOMContentLoaded', () => {
-  // Popular products on home
   const popular = [...products.phones.slice(0,2), ...products.sim.slice(0,2)];
   const popularContainer = document.getElementById('popularCards');
-  if (popularContainer) {
-    popularContainer.innerHTML = popular.map(p => productCardHTML(p)).join('');
-  }
-  
+  if (popularContainer) popularContainer.innerHTML = popular.map(p => productCardHTML(p)).join('');
   updateCartCount();
-  
-  // Handle initial route
   handleRoute();
-  
-  // Keyboard shortcuts
+  renderCheckoutDevices();
+  updateCheckoutSummary();
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape') {
       document.querySelectorAll('.modal-overlay.show').forEach(m => closeModal(m.id));
-      if (document.getElementById('mobileMenu')?.classList.contains('open')) {
-        toggleMobileMenu();
-      }
+      if (document.getElementById('mobileMenu')?.classList.contains('open')) toggleMobileMenu();
     }
   });
 });
